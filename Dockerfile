@@ -2,7 +2,7 @@ FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y \
     bash \
     curl \
     wget \
@@ -30,5 +30,5 @@ WORKDIR /root
 
 EXPOSE 8080
 
-# تشغيل التيرمينال وتوجيهه لمنفذ Railway تلقائياً
-CMD ["sh", "-c", "ttyd -p ${PORT:-8080} -W bash"]
+CMD ["sh", "-c", "ttyd -p ${PORT:-8080} -i 0.0.0.0 -W bash"]
+
