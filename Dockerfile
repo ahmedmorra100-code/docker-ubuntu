@@ -28,7 +28,7 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /root
 
-EXPOSE 8080
+EXPOSE 8060
 
-CMD ["sh", "-c", "ttyd -p ${PORT:-8080} -i 0.0.0.0 -W bash"]
+CMD ["sh", "-c", "ttyd -p 8060 -i 0.0.0.0 -W bash"]
 
