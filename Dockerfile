@@ -2,8 +2,7 @@ FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# تثبيت التيرمينال ومكتبات التشغيل الضرورية لـ Playwright و Chrome
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \
     curl \
     wget \
@@ -31,6 +30,5 @@ WORKDIR /root
 
 EXPOSE 8080
 
-# تشغيل التيرمينال المباشر على المنفذ 8080
-CMD ["ttyd", "-p", "8080", "-W", "bash"]
-
+# تشغيل التيرمينال وتوجيهه لمنفذ Railway تلقائياً
+CMD ["sh", "-c", "ttyd -p ${PORT:-8080} -W bash"]
