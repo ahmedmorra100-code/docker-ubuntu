@@ -1,8 +1,9 @@
 FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV SHELL=/bin/bash
 
-# 1. تثبيت حزم النظام والمكتبات الرسومية اللازمة للمتصفحات
+# 1. تثبيت حزم النظام ومكتبات البايثون
 RUN apt-get update && apt-get install -y \
     bash \
     curl \
@@ -26,14 +27,13 @@ RUN apt-get update && apt-get install -y \
     libasound2 \
     && rm -rf /var/lib/apt/lists/*
 
-# 2. تحميل وتثبيت ttyd الرسمي مباشرة
+# 2. تحميل وتثبيت ttyd
 RUN curl -fsSL https://github.com/tsl0922/ttyd/releases/download/1.7.7/ttyd.x86_64 -o /usr/local/bin/ttyd \
     && chmod +x /usr/local/bin/ttyd
 
 WORKDIR /root
 
-# المنفذ الافتراضي
 EXPOSE 8060
 
-# تشغيل تيرمينال الويب وربطه بمتغير المنفذ التلقائي
-CMD ["sh", "-c", "ttyd -p ${PORT:-8060} -W bash"]
+# تشغيل التيرمينال بوضع DOM المخصص للموبايل والخط الواضح
+CMD ["sh", "-c", "ttyd -p ${PORT:-8060} -W -t rendererType=dom -t fontSize=16 -t cursorBlink=true /bin/bash"]
