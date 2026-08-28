@@ -30,5 +30,4 @@ WORKDIR /root
 
 EXPOSE 8060
 
-CMD ["sh", "-c", "ttyd -p 8060 -i 0.0.0.0 -W bash"]
-
+CMD ["sh", "-c", "ttyd -p ${PORT:-8060} -i 0.0.0.0 -W bash"]
