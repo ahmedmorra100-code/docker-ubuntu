@@ -2,6 +2,7 @@ FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+# 1. تثبيت حزم النظام والمكتبات الرسومية اللازمة للمتصفحات
 RUN apt-get update && apt-get install -y \
     bash \
     curl \
@@ -10,7 +11,6 @@ RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
     ca-certificates \
-    ttyd \
     libnss3 \
     libnspr4 \
     libatk1.0-0 \
@@ -26,8 +26,14 @@ RUN apt-get update && apt-get install -y \
     libasound2 \
     && rm -rf /var/lib/apt/lists/*
 
+# 2. تحميل وتثبيت ttyd الرسمي مباشرة
+RUN curl -fsSL https://github.com/tsl0922/ttyd/releases/download/1.7.7/ttyd.x86_64 -o /usr/local/bin/ttyd \
+    && chmod +x /usr/local/bin/ttyd
+
 WORKDIR /root
 
+# المنفذ الافتراضي
 EXPOSE 8060
 
-CMD ["sh", "-c", "ttyd -p ${PORT:-8060} -i 0.0.0.0 -W bash"]
+# تشغيل تيرمينال الويب وربطه بمتغير المنفذ التلقائي
+CMD ["sh", "-c", "ttyd -p ${PORT:-8060} -W bash"]
