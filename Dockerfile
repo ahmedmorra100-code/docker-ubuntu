@@ -1,12 +1,13 @@
-# استخدام نظام سطح مكتب لينكس خفيف وسريع ومخصص للويب
 FROM lscr.io/linuxserver/webtop:ubuntu-xfce
 
+# منع أي نوافذ توقف تفاعلية أثناء التثبيت
+ENV DEBIAN_FRONTEND=noninteractive
 ENV PUID=1000
 ENV PGID=1000
 ENV TZ=UTC
 
-# تثبيت بايثون وأدوات التطوير ومكتبات التشغيل
-RUN apt-get update && apt-get install -y \
+# تحديث وتثبيت الحزم الأساسية بصمت وسرعة
+RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 \
     python3-pip \
     git \
@@ -15,8 +16,7 @@ RUN apt-get update && apt-get install -y \
     nano \
     && rm -rf /var/lib/apt/lists/*
 
-# تثبيت متطلبات البايثون الأساسية
+# تثبيت مكتبات البايثون
 RUN pip3 install --no-cache-dir streamlit curl_cffi playwright
 
-# المنفذ الافتراضي لسطح المكتب الرسومي
 EXPOSE 3000
